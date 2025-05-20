@@ -1,0 +1,46 @@
+$block: '.bookOverview';
+
+#{$block} {
+    width: 1000px;
+    padding: 40px;
+    display: flex;
+    flex-flow: row;
+    align-items: stretch;
+    gap: 40px;
+
+    &__bookName {
+        display: flex;
+        flex-flow: row;
+        align-items: center;
+        gap: 10px;
+    }
+
+    &__bookImage {
+        width: 300px;
+        height: 100%;
+    }
+
+    &__bookInfo {
+        display: flex;
+        flex-flow: column;
+        align-items: start;
+        gap: 20px;
+    }
+
+    &__rentBlock {
+        margin-top: auto;
+    }
+
+    &__info {
+        padding: 10px;
+        display: flex;
+        flex-flow: column;
+        align-items: start;
+        gap: 10px
+    }
+
+    &__text {
+        margin-left: 8px;
+        font-weight: 900 !important;
+    }
+}

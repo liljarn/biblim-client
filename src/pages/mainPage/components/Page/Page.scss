@@ -1,0 +1,71 @@
+$block: '.mainPage';
+
+#{$block} {
+    width: 100%;
+    padding: 40px 6vw;
+    display: flex;
+    flex-flow: column;
+    gap: 40px;
+
+    &__header {
+        width: 100%;
+        text-align: center;
+    }
+
+    &__image {
+
+        &_horizontal {
+            width: 800px;
+        }
+
+        &_vertical {
+            width: 650px;
+        } 
+    }
+
+    &__imgBlock {
+        max-height: 400px;
+        overflow-y: hidden;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    &__block {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 40px;
+    }
+
+    &__bookList{
+        width: fit-content;
+        padding: 20px 2px;
+        display: flex;
+        flex-direction: row;
+        gap: 40px;
+    }
+
+    &__card {
+        width: 500px;
+        padding: 40px;
+        display: flex;
+        flex-direction: column;
+        gap: 40px;
+        justify-content: center;
+        align-items: center;
+
+        * {
+            text-align: center;
+        }
+    }
+
+    &__cardBlock {
+        display: flex;
+        flex-direction: row;
+        gap: 80px;
+        justify-content: center;
+        align-items: stretch;
+    }
+}

@@ -1,0 +1,26 @@
+$block: '.cabinetPage';
+
+#{$block} {
+    width: 100%;
+    min-height: 85vh;
+    padding: 40px;
+    display: flex;
+    flex-flow: row;
+    justify-content: center;
+    gap: 100px;
+
+    &__userInfo {
+        width: fit-content;
+        display: flex;
+        flex-flow: column;
+        align-items: center;
+        gap: 20px;
+    }
+
+    &__buttons {
+        display: flex;
+        flex-flow: row;
+        align-items: center;
+        gap: 20px;
+    }
+}

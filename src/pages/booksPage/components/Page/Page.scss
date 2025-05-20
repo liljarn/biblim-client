@@ -1,0 +1,23 @@
+$block: '.booksPage';
+
+#{$block} {
+    width: 100%;
+    min-width: 100vw;
+    padding: 40px 7vw;
+    display: flex;
+    flex-flow: column;
+    align-items: stretch;
+    gap: 40px;
+
+    &__bookList {
+        width: 100%;
+        display: flex;
+        flex-flow: wrap;
+        justify-content: center;
+        gap: 80px;
+    }
+
+    &__pagination {
+        align-self: center;
+    }
+}

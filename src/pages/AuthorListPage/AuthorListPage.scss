@@ -1,0 +1,16 @@
+.author-list-page {
+    padding: 50px 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+}
+
+.author-list-page-search {
+    width: 300px;
+    align-self: start;
+}
+
+.author-list-page-title {
+    width: 100%;
+}

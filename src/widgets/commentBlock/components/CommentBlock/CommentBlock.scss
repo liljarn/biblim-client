@@ -1,0 +1,14 @@
+$block: '.commentBlock';
+
+#{$block} {
+    width: 600px;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    gap: 40px;
+
+    &__hint {
+        width: 100%;
+        text-align: start;
+    }
+}

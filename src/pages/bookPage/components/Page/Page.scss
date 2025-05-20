@@ -1,0 +1,9 @@
+$block: '.bookPage';
+
+#{$block} {
+    padding: 40px 7vw;
+    display: flex;
+    flex-flow: row;
+    align-items: start;
+    gap: 40px;
+}
