@@ -32,7 +32,7 @@ export const bookApi = createApi({
         getBookPage: builder.query<BookPageResponse, BookPageParams>({
             query: (params) => ({
                 url: 'book/list',
-                params,
+                params: {page: params.page, query: params.query ? params.query : undefined, genres: params.genres?.join(',')},
             }),
             providesTags: ['BookList']
         }),

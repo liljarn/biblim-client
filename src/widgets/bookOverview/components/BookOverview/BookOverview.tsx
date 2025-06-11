@@ -79,7 +79,8 @@ export const BookOverview: React.FC<BookOverviewProps> = ({
                         </UserLabel>
                     </div>
                     {bookLink && localStorage.getItem(LocalStorageKey.AuthToken) && <Link view='primary' href={bookLink} target='blank'>Скачать и читать книгу <Icon data={FileArrowDown} size={18} /></Link>}
-                    {book.downloadable && !localStorage.getItem(LocalStorageKey.AuthToken) && <Text variant='body-2' color='warning-heavy'>Для скачивания войдите в систему</Text>}                    <div className={b('rentBlock')}>
+                    {book.downloadable && !localStorage.getItem(LocalStorageKey.AuthToken) && <Text variant='body-2' color='warning-heavy'>Для скачивания войдите в систему</Text>}
+                    <div className={b('rentBlock')}>
                         <BookActions
                             status={status}
                             handleReserve={handleReserve}

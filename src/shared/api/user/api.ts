@@ -15,13 +15,18 @@ type UserResponse = {
 };
 
 export type ChangeUserParams = {
-    email: string,
-    password: string,
-    firstName: string,
-    lastName: string,
-    birthDate: string,
-    profileImage?: File,
+    email?: string,
+    password?: string,
+    firstName?: string,
+    lastName?: string,
+    birthDate?: string,
 };
+
+export type PhotoChangeState = 'unchanged' | 'removed' | 'changed';
+
+export type ChangeUserPhotoParams = {
+    profileImage?: File,
+}
 
 export const userApi = createApi({
     reducerPath: 'userApi',
@@ -40,11 +45,24 @@ export const userApiWithAuth = createApi({
         getSelfUser: builder.query<UserResponse, void>({
             query: () => 'profile/self',
         }),
-        changeSelfUser: builder.mutation<void, FormData>({
-            query: (credentials) => ({
+        changeSelfUser: builder.mutation<void, ChangeUserParams>({
+            query: (params) => ({
                 url: 'profile/self',
                 method: 'PUT',
+                body: params,
+            }),
+        }),
+        changeUserPhoto: builder.mutation<void, FormData>({
+            query: (credentials) => ({
+                url: 'profile/self/photo',
+                method: 'PUT',
                 body: credentials,
+            }),
+        }),
+        deleteUserPhoto: builder.mutation<void, void>({
+            query: () => ({
+                url: 'profile/self/photo',
+                method: 'DELETE',
             }),
         }),
     }),
@@ -52,6 +70,6 @@ export const userApiWithAuth = createApi({
 
 export const { useGetUserQuery } = userApi;
 
-export const { useGetSelfUserQuery, useChangeSelfUserMutation } = userApiWithAuth;
+export const { useGetSelfUserQuery, useChangeSelfUserMutation, useChangeUserPhotoMutation } = userApiWithAuth;
 
 export const changeSelfUserMutation = userApiWithAuth.endpoints.changeSelfUser.initiate;

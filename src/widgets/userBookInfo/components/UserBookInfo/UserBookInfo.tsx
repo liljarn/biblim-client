@@ -26,7 +26,7 @@ export const UserBookInfo = ({userId, book, dueTime}: UserBookInfoProps) => {
 
     return (
         <div className={b()}>
-            {!book && !data && <UserBookInfoStub />}
+            {!book && !data?.total && <UserBookInfoStub />}
             {book && (
                 <div className={b('readingNow')}>
                     <Text className={b('header')} variant="display-1">

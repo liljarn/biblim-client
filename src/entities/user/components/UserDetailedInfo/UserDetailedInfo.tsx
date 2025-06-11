@@ -17,13 +17,15 @@ export const UserDetailedInfo = ({self, userData}: UserDetailedInfoProps) => {
     return (
         <Card view="raised">
             <div className={b()}>
-                <div className={b('imgContainer')}>
-                    <img
-                        className={b('img')}
-                        src={photoUrl}
-                        alt={`Пользователь ${firstName} ${lastName}`}
-                    />
-                </div>
+                {photoUrl && (
+                    <div className={b('imgContainer')}>
+                        <img
+                            className={b('img')}
+                            src={photoUrl}
+                            alt={`Пользователь ${firstName} ${lastName}`}
+                        />
+                    </div>
+                )}
                 <div>
                     <div className={b('info')}>
                         <Text variant="body-2">

@@ -1,9 +1,10 @@
 import React, {useState, useCallback} from 'react';
-import {Button, TextArea, Text} from '@gravity-ui/uikit';
+import {Button, TextArea, Text, Link} from '@gravity-ui/uikit';
 import {RatingInput} from '../RatingInput/RatingInput';
 
 import block from 'bem-cn-lite';
 import './CommentForm.scss';
+import { LocalStorageKey } from '@/shared/config/consts';
 const b = block('commentForm');
 
 export interface ReviewFormProps {
@@ -62,11 +63,13 @@ export const CommentForm: React.FC<ReviewFormProps> = ({onSubmit}) => {
                         {error}
                     </Text>
                 )}
+                {!localStorage.getItem(LocalStorageKey.AuthToken) && <Text variant='body-2' color='warning-heavy'>Для добавления отзывов войдите в систему</Text>}
                 <Button
                     className={b('submitButton')}
                     onClick={handleSubmit}
                     view="action"
                     size="xl"
+                    disabled={localStorage.getItem(LocalStorageKey.AuthToken) == undefined}
                 >
                     Оставить рецензию
                 </Button>

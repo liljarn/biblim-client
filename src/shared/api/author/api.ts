@@ -14,7 +14,7 @@ export const authorApi = createApi({
         getAuthors: builder.query<AuthorPageResponse, AuthorPageParams>({
             query: (params) => ({
                 url: 'list',
-                params,
+                params: {page: params.page, query: params.query ? params.query : undefined},
             }),
         }),
         getAuthorById: builder.query<AuthorFullResponse, string>({

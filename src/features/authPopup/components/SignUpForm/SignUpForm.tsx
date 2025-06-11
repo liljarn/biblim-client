@@ -1,4 +1,4 @@
-import {FC, useState, useCallback} from 'react';
+import {FC, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {DatePicker} from '@gravity-ui/date-components';
 import {dateTimeParse, DateTime} from '@gravity-ui/date-utils';
@@ -7,6 +7,9 @@ import {getIsAuthPopupLoading, signUpUser} from '../../model/slice';
 import {Button, TextInput} from '@gravity-ui/uikit';
 import {FileUpload} from '@/shared/components';
 import {useNavigate} from 'react-router-dom';
+import {useForm, Controller} from 'react-hook-form';
+import {yupResolver} from '@hookform/resolvers/yup';
+import {signUpValidationSchema, SignUpFormData} from './validation';
 
 import block from 'bem-cn-lite';
 import './SignUpForm.scss';
@@ -14,133 +17,121 @@ const b = block('signUpForm');
 
 const FORMAT = 'YYYY-MM-DD';
 
-const validateField = (field?: string) => {
-    if (!field) return 'Обязательное поле';
-    return '';
-};
-
 export const SignUpForm: FC = () => {
     const navigate = useNavigate();
-
-    const [email, setEmail] = useState('');
-    const [name, setName] = useState('');
-    const [surname, setSurname] = useState('');
-    const [birthdate, setBirthdate] = useState<DateTime | null>();
-    const [password, setPassword] = useState('');
-    const [profileImage, setProfileImage] = useState<File | null>(null);
-
-    const [emailError, setEmailError] = useState('');
-    const [nameError, setNameError] = useState('');
-    const [surnameError, setSurnameError] = useState('');
-    const [passwordError, setPasswordError] = useState('');
-    const [birthdateError, setBirthdateError] = useState('');
-
     const dispatch = useDispatch<AppDispatch>();
     const isLoading = useSelector(getIsAuthPopupLoading);
+    
+    const [profileImage, setProfileImage] = useState<File | null>(null);
 
-    const onEmailChange = useCallback((value: string) => {
-        setEmailError('');
-        setEmail(value);
-    }, []);
-
-    const onNameChange = useCallback((value: string) => {
-        setNameError('');
-        setName(value);
-    }, []);
-
-    const onSurnameChange = useCallback((value: string) => {
-        setSurnameError('');
-        setSurname(value);
-    }, []);
-
-    const onPasswordChange = useCallback((value: string) => {
-        setPasswordError('');
-        setPassword(value);
-    }, []);
-
-    const onBirthdateChange = useCallback((value: DateTime | null) => {
-        setBirthdateError('');
-        setBirthdate(value);
-    }, []);
-
-    const onSubmit = useCallback(() => {
-        const usernameValidationError = validateField(email);
-        const nameValidationError = validateField(name);
-        const surnameValidationError = validateField(surname);
-        const passwordValidationError = validateField(password);
-        const birthdateValidationError = validateField(birthdate?.toISOString());
-
-        setEmailError(usernameValidationError);
-        setNameError(nameValidationError);
-        setSurnameError(surnameValidationError);
-        setPasswordError(passwordValidationError);
-        setBirthdateError(birthdateValidationError);
-
-        if (
-            !usernameValidationError &&
-            !nameValidationError &&
-            !surnameValidationError &&
-            !passwordValidationError &&
-            !birthdateValidationError
-        ) {
-            dispatch(
-                signUpUser({
-                    email,
-                    firstName: name,
-                    lastName: surname,
-                    birthDate: birthdate!.format(FORMAT),
-                    password,
-                    profileImage: profileImage || undefined,
-                    navigate,
-                }),
-            );
+    const {
+        control,
+        handleSubmit,
+        formState: { errors },
+    } = useForm<SignUpFormData>({
+        resolver: yupResolver(signUpValidationSchema),
+        mode: 'onChange',
+        defaultValues: {
+            email: '',
+            firstName: '',
+            lastName: '',
+            password: '',
+            birthDate: undefined,
         }
-    }, [email, name, surname, password, birthdate, dispatch, profileImage]);
+    });
+
+    const onSubmit = (data: SignUpFormData) => {
+        dispatch(
+            signUpUser({
+                email: data.email,
+                firstName: data.firstName,
+                lastName: data.lastName,
+                birthDate: dateTimeParse(data.birthDate.toISOString())!.format(FORMAT),
+                password: data.password,
+                profileImage: profileImage || undefined,
+                navigate,
+            }),
+        );
+    };
 
     return (
         <div className={b()}>
-            <TextInput
-                label="Почта"
-                value={email}
-                onUpdate={onEmailChange}
-                error={emailError}
-                type="email"
-                hasClear
-                size="l"
+            <Controller
+                name="email"
+                control={control}
+                render={({ field }) => (
+                    <TextInput
+                        label="Почта"
+                        value={field.value}
+                        onUpdate={field.onChange}
+                        error={errors.email?.message}
+                        type="email"
+                        hasClear
+                        size="l"
+                    />
+                )}
             />
-            <TextInput
-                label="Имя"
-                value={name}
-                onUpdate={onNameChange}
-                error={nameError}
-                hasClear
-                size="l"
+            
+            <Controller
+                name="firstName"
+                control={control}
+                render={({ field }) => (
+                    <TextInput
+                        label="Имя"
+                        value={field.value}
+                        onUpdate={field.onChange}
+                        error={errors.firstName?.message}
+                        hasClear
+                        size="l"
+                    />
+                )}
             />
-            <TextInput
-                label="Фамилия"
-                value={surname}
-                onUpdate={onSurnameChange}
-                error={surnameError}
-                hasClear
-                size="l"
+            
+            <Controller
+                name="lastName"
+                control={control}
+                render={({ field }) => (
+                    <TextInput
+                        label="Фамилия"
+                        value={field.value}
+                        onUpdate={field.onChange}
+                        error={errors.lastName?.message}
+                        hasClear
+                        size="l"
+                    />
+                )}
             />
-            <DatePicker
-                label={'Дата рождения'}
-                placeholder=" "
-                value={dateTimeParse(birthdate)}
-                onUpdate={onBirthdateChange}
-                validationState={birthdateError ? 'invalid' : undefined}
-                errorMessage={birthdateError}
-                size="l"
+            
+            <Controller
+                name="birthDate"
+                control={control}
+                render={({ field }) => (
+                    <DatePicker
+                        label="Дата рождения"
+                        placeholder=" "
+                        value={field.value ? dateTimeParse(field.value.toISOString()) : null}
+                        onUpdate={(value) => field.onChange(value?.toDate())}
+                        validationState={errors.birthDate ? 'invalid' : undefined}
+                        errorMessage={errors.birthDate?.message}
+                        size="l"
+                    />
+                )}
             />
-            <TextInput
-                label={'Пароль'}
-                value={password}
-                onUpdate={onPasswordChange}
-                type="password"
-                error={passwordError}
-                hasClear
-                size="l"
+            
+            <Controller
+                name="password"
+                control={control}
+                render={({ field }) => (
+                    <TextInput
+                        label="Пароль"
+                        value={field.value}
+                        onUpdate={field.onChange}
+                        type="password"
+                        error={errors.password?.message}
+                        hasClear
+                        size="l"
+                    />
+                )}
             />
 
             <FileUpload
@@ -149,7 +140,7 @@ export const SignUpForm: FC = () => {
                 value={profileImage ? URL.createObjectURL(profileImage) : ''}
             />
 
-            <Button onClick={onSubmit} loading={isLoading} type="submit" view="action" size="l">
+            <Button onClick={handleSubmit(onSubmit)} loading={isLoading} type="submit" view="action" size="l">
                 Зарегистрироваться
             </Button>
         </div>
