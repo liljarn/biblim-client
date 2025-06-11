@@ -14,6 +14,11 @@ type BookPageResponse = {
     books: Book[];
 };
 
+type ResponseBookPageResponse = {
+    total?: number;
+    rentedBooks: Book[];
+};
+
 type BookResponse = {
     book: Book;
     status: BookStatus;
@@ -55,7 +60,7 @@ export const bookApiWithAuth = createApi({
         getBookById: builder.query<BookResponse, string>({
             query: (id) => `book/info/${id}`,
         }),
-        getUserRentHistory: builder.query<BookPageResponse, UserRentHistoryParams>({
+        getUserRentHistory: builder.query<ResponseBookPageResponse, UserRentHistoryParams>({
             query: (params) => ({
                 url: `rent/${params.userId}/history`,
                 params: { page: params.page},

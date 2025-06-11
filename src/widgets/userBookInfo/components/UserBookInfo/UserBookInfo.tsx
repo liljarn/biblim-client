@@ -49,11 +49,11 @@ export const UserBookInfo = ({userId, book, dueTime}: UserBookInfoProps) => {
                                 </Label>
                             </Text>
                         ))}
-                    <BookCard book={book} />
+                    <BookCard book={book} onClick={(id) => navigate(`/book/${id}`)}/>
                 </div>
             )}
 
-            {!!data && data.books?.length > 0 && (
+            {!!data && data.rentedBooks?.length > 0 && (
                 <div className={b('bookHistory')}>
                     <Text className={b('header')} variant="display-1">
                         История чтения
@@ -64,8 +64,8 @@ export const UserBookInfo = ({userId, book, dueTime}: UserBookInfoProps) => {
                         <Carousel itemCount={20}>
                             <BookList
                                 className={b('bookList')}
-                                books={data?.books ?? []}
-                                onBookClick={(id) => navigate(`book/${id}`)}
+                                books={data?.rentedBooks ?? []}
+                                onBookClick={(id) => navigate(`/book/${id}`)}
                             />
                         </Carousel>
                     )}

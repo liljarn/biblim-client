@@ -26,18 +26,14 @@ export const Page = () => {
     }
 
     return (
-        <>
-            <div className={b()}>
-                <div className={b('userInfo')}>
-                    <UserDetailedInfo userData={data.userData} />
-                </div>
-                <UserBookInfo
-                    userId={data.userData.userId}
-                    book={data.bookInfo?.book}
-                    dueTime={data.bookInfo?.dueDate}
-                />
-            </div>
-        </>
+        <div className={b()}>
+            <UserBookInfo
+                userId={data.userData.userId}
+                book={data.bookInfo?.book}
+                dueTime={data.bookInfo?.dueDate}
+            />
+            <UserDetailedInfo userData={data.userData} />
+        </div>
     );
 };
 
